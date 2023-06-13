@@ -13,6 +13,7 @@ const Addproduct = () => {
     const formData = data;
     formData.sellerEmail = `${user.email}`
     formData.sellerName = `${user.displayName}`
+    // formData.quan = parseInt(formData.quantity)
     console.log(formData)
 
     fetch('http://localhost:5000/product', {
@@ -67,6 +68,19 @@ const Addproduct = () => {
             </label>
             <input type="text" placeholder="" className="input input-bordered input-sm rounded-md"  {...register("desc", {
               required: "Description is required"
+            })} />
+          </div>
+        </div>
+
+
+        <div className='flex justify-around mb-3'>
+
+          <div className="form-control w-full max-w-[250px]">
+            <label className="label">
+              <span className="label-text text-black">Quantity</span>
+            </label>
+            <input type="number" placeholder="" className="input input-bordered input-sm rounded-md"  {...register("quan", {
+              valueAsNumber: true,
             })} />
           </div>
         </div>

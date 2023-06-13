@@ -2,7 +2,6 @@ import './App.css';
 import Banner from './sections/Banner';
 import Contact from './sections/Contact';
 import Review from './sections/Review';
-import Extrasection from './sections/Extrasection';
 import Footer from './sections/Footer';
 import Navbar from './sections/Navbar';
 import Services from './sections/Services';

@@ -4,8 +4,7 @@ import { AuthContext } from '../contexts/AuthProvider';
 
 const Card = (props) => {
 
-    const [quan, setQuan] = useState(props.quan)
-    const { name, price, img } = props
+    const { id, name, price, img, quan } = props
     const { user } = useContext(AuthContext)
     const bookingData = {
         name: name,
@@ -15,7 +14,8 @@ const Card = (props) => {
         buyerName: user?.displayName
     }
 
-    const orderItem = () => {
+    const orderItem = (id) => {
+        console.log(id)
         fetch('http://localhost:5000/booking', {
             method: 'POST',
             headers: {
@@ -42,14 +42,14 @@ const Card = (props) => {
             <div>
                 <h1 className='text-3xl font-semibold'>{props.name}</h1>
                 <p className='text-xl '>Price: <span className='text-2xl font-bold'>{props.price}Tk</span></p>
-                <p className='text-xl '>Quantity: <span className='text-2xl font-bold'>{quan}</span></p>
+                <p className='text-xl '>Remaining: <span className='text-lg font-semibold'>{quan}</span></p>
                 <p className='text-md py-2'>
                     {props.desc}
                 </p>
 
             </div>
             <div>
-                <button onClick={() => { orderItem() }} className='px-20 py-2 block mx-auto hover:bg-orange-600 bg-green-500 text-xl text-white uppercase rounded'>Order Now</button>
+                <button onClick={() => { orderItem(id) }} className='px-20 py-2 block mx-auto hover:bg-orange-600 bg-green-500 text-xl text-white uppercase rounded'>Order Now</button>
             </div>
         </div>
     );
