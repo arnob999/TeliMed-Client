@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import Loading from '../../../component/Loading/Loading';
+import { Link } from 'react-router-dom';
 
 
 
@@ -61,6 +62,7 @@ const MyProduct = () => {
                         <th>No.</th>
                         <th>Name</th>
                         <th>Action</th>
+                        <th>Manage</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +104,12 @@ const MyProduct = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </td>
+
+                                <td>
+                                    <Link to={`/dashboard/edit/${product._id}`} >
+                                        <button className="btn btn-ghost btn-xs bg-slate-600 text-white hover:bg-slate-700">Edit</button>
+                                    </Link>
                                 </td>
                             </tr>
                         )
