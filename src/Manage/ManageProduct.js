@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 
 const ManageProduct = () => {
+  const navigate = useNavigate()
+
+
   //nirdishto id ashtese
+
   const { id } = useParams()
 
   const [products, setProducts] = useState({})
@@ -38,6 +42,23 @@ const ManageProduct = () => {
   const handleManageProduct = data => {
     const formData = data;
     console.log(formData)
+
+    //changes updating to database
+    fetch(`http://localhost:5000/product/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.modifiedCount > 0) {
+          alert("Data Updated")
+
+          navigate('/dashboard/myProduct')
+        }
+      })
   }
   return (
     <div className="py-10">
