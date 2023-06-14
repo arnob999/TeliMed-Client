@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 
@@ -12,37 +11,34 @@ const ManageProduct = () => {
   const { _id, name, img, desc, price, quan, sellerEmail, sellerName } = products
 
   //useForm hook
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      name: name,
+      img: img,
+      desc: desc,
+      price: price,
+      quan: quan
+    },
+  })
 
   //for showing default value
   useEffect(() => {
     fetch(`http://localhost:5000/product/${id}`)
       .then((res) => res.json())
       .then(data => {
+        setValue('name', data.name);
+        setValue('img', data.img);
+        setValue('desc', data.desc);
+        setValue('quan', data.quan);
+        setValue('price', data.price);
         setProducts(data)
-        console.log(products)
       })
   }, [])
 
-  const handleAddProduct = data => {
+  const handleManageProduct = data => {
     const formData = data;
-    // formData.quan = parseInt(formData.quantity)
     console.log(formData)
-
-    fetch('http://localhost:5000/product', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `bearer ${localStorage.getItem("accessToken")}`
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(res => res.json())
-      .then(data => {
-        alert("Product Added")
-      })
   }
-  console.log(id)
   return (
     <div className="py-10">
       <div class="w-full mx-auto max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -52,15 +48,13 @@ const ManageProduct = () => {
           {name}
         </div>
 
-        <form className='' onSubmit={handleSubmit(handleAddProduct)}>
+        <form className='' onSubmit={handleSubmit(handleManageProduct)}>
           <div className='flex justify-around mb-3'>
             <div className="form-control w-full max-w-[250px]">
               <label className="label">
                 <span className="label-text text-black dark:text-white ">Name</span>
               </label>
-              <input type="text" placeholder="" defaultValue={name} className="input input-bordered input-sm rounded-md"  {...register("name", {
-                required: "Product Name is required"
-              })} />
+              <input type="text" placeholder="" defaultValue={name} className="input input-bordered input-sm rounded-md"  {...register("name")} />
             </div>
 
           </div>
@@ -85,9 +79,7 @@ const ManageProduct = () => {
               <label className="label">
                 <span className="label-text text-black dark:text-white">Product Description</span>
               </label>
-              <input type="text" placeholder="" defaultValue={desc} className="input input-bordered input-sm rounded-md"  {...register("desc", {
-                required: "Description is required"
-              })} />
+              <input type="text" placeholder="" defaultValue={desc} className="input input-bordered input-sm rounded-md"  {...register("desc")} />
             </div>
           </div>
 
@@ -118,9 +110,7 @@ const ManageProduct = () => {
               <label className="label">
                 <span className="label-text text-black dark:text-white">Price (in Tk)</span>
               </label>
-              <input type="number" placeholder="" defaultValue={price} className="input input-bordered input-sm rounded-md"  {...register("price", {
-                required: "Asking Price here"
-              })} />
+              <input type="number" placeholder="" defaultValue={price} className="input input-bordered input-sm rounded-md"  {...register("price")} />
             </div>
           </div>
 
